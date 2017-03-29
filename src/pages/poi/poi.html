@@ -1,0 +1,149 @@
+<ion-header>
+
+  <ion-navbar>
+    
+    <ion-title><img src="assets/images/icon.png" width="36"/>Jaringan <span color="primary" class="irigasibold">Irigasi</span></ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content>
+  <div padding>
+    <ion-segment [(ngModel)]="latlng">
+      <ion-segment-button value="gps">
+        GPS
+      </ion-segment-button>
+      <ion-segment-button value="pinpoint">
+        Pin Point
+      </ion-segment-button>
+    </ion-segment>
+  </div>
+
+  <div [ngSwitch]="latlng">
+    <ion-list *ngSwitchCase="'gps'">
+      <ion-item>
+          <button type="button" ion-button icon-left block (click)="geolocate()">
+            <ion-icon ios="ios-locate" md="md-locate"></ion-icon>
+            Dapatkan Lokasi
+          </button>
+      </ion-item>
+    </ion-list>
+
+    <ion-list *ngSwitchCase="'pinpoint'">
+      <ion-item>
+        <button type="button" ion-button icon-left block (click)="getMapPin()">
+          <ion-icon ios="ios-pin" md="md-pin"></ion-icon>
+          Pilih Lokasi...</button>
+      </ion-item>
+    </ion-list>
+  </div>
+
+
+  <ion-list>
+    <form (ngSubmit)="submit()">
+      <ion-item>
+        <ion-icon ios="ios-globe" md="md-globe"  [ngStyle]="{'color': '#0CA9EA'}"></ion-icon>
+        Latitude
+        <ion-badge item-right>{{data.y}}</ion-badge>
+      </ion-item>
+      <ion-item>
+        <ion-icon ios="ios-globe" md="md-globe" [ngStyle]="{'color': '#CE6296'}"></ion-icon>
+        Longitude
+        <ion-badge item-right>{{data.x}}</ion-badge>
+      </ion-item>
+
+      <ion-item>
+        <ion-label stacked>Daerah Irigasi</ion-label>
+        <ion-select [(ngModel)]="data.daerah_irigasi" name="daerah_irigasi" > 
+          <ion-option value="Cisamayang">Cisamayang</ion-option>
+          <ion-option value="Cigunung Karang">Cigunung Karang</ion-option>
+          <ion-option value="Curug Goong">Curug Goong</ion-option>
+          <ion-option value="Cijalti">Cijalti</ion-option>
+          <ion-option value="Cikeredek">Cikeredek</ion-option>
+          <ion-option value="Ciastana">Ciastana</ion-option>
+          <ion-option value="Cipait">Cipait</ion-option>
+          <ion-option value="Citando">Citando</ion-option>
+          <ion-option value="Tajur Malang">Tajur Malang</ion-option>
+          <ion-option value="Cigadu Galek">Cigadu Galek</ion-option>
+          <ion-option value="Cibanteng">Cibanteng</ion-option>
+          <ion-option value="Cibebek">Cibebek</ion-option>
+          <ion-option value="Cibatu">Cibatu</ion-option>
+          <ion-option value="Cisaung Kaya">Cisaung Kaya</ion-option>
+          <ion-option value="Cikadu Peusing">Cikadu Peusing</ion-option>
+        </ion-select>
+      </ion-item>
+      <ion-item>
+        <ion-label stacked>Bendung</ion-label>
+        <ion-input [(ngModel)]="data.bendung" name="bendung" ></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label stacked>Jaringan Irigasi</ion-label>
+        <ion-select [(ngModel)]="data.jaringan_irigasi" name="jaringan_irigasi" > 
+          <ion-option value="Primer">Primer</ion-option>
+          <ion-option value="Sekunder">Sekunder</ion-option>
+          <ion-option value="Tersier">Tersier</ion-option>
+        </ion-select>
+      </ion-item>
+      <ion-item>
+        <ion-label stacked>Jaringan Irigasi Bangunan</ion-label>
+        <ion-input [(ngModel)]="data.jaringan_irigasi_bangunan" name="jaringan_irigasi_bangunan" ></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label stacked>Saluran Primer</ion-label>
+        <ion-input [(ngModel)]="data.saluran_primer" name="saluran_primer" ></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label stacked>Drain Inlet</ion-label>
+        <ion-input [(ngModel)]="data.drain_inlet" name="drain_inlet" ></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label stacked>Saluran Sekunder</ion-label>
+        <ion-input [(ngModel)]="data.saluran_sekunder" name="saluran_sekunder" ></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label stacked>Kondisi</ion-label>
+        <ion-select [(ngModel)]="data.kondisi" name="kondisi"> 
+          <ion-option value="Baik">Baik</ion-option>
+          <ion-option value="Sedang">Sedang</ion-option>
+          <ion-option value="Rusak Ringan">Rusak Ringan</ion-option>
+          <ion-option value="Rusak">Rusak</ion-option>
+        </ion-select>
+      </ion-item>
+      <ion-card>
+        <ion-card-content>
+          <ion-card-title>
+            Foto 
+          </ion-card-title>
+          <img src="{{pathForImage(lastImage)}}" style="width: 100%" [hidden]="lastImage === null">
+          <ion-grid text-center>
+            <ion-row>
+              <ion-col>
+                <ion-buttons>
+                  <button ion-button icon-left (click)="presentActionSheet()" type="button">
+                    <ion-icon name="camera"></ion-icon>Select Image
+                  </button>
+                  <button ion-button icon-left (click)="uploadImage()" [disabled]="lastImage === null" type="button">
+                    <ion-icon name="cloud-upload"></ion-icon>Upload
+                  </button>
+                </ion-buttons>
+              </ion-col>
+            </ion-row>
+          </ion-grid>
+        </ion-card-content>
+      </ion-card>
+    </form>
+  </ion-list>
+
+</ion-content>
+
+<ion-footer>
+  
+      <ion-grid text-center class="button-group">
+        <ion-row>
+          <ion-col class="col"><button ion-button icon-left block (click)="submit()" type="button" class="button"><ion-icon ios="ios-send" md="md-send"></ion-icon> Proses</button></ion-col>
+          <ion-col class="col"><button ion-button icon-left block (click)="getMap()" type="button" class="button"><ion-icon name="map"></ion-icon> Map</button></ion-col>
+        </ion-row>
+      </ion-grid>
+  
+</ion-footer>

@@ -12,12 +12,12 @@ import 'rxjs/add/operator/map';
 export class DataFasilitas {
   rootUrl;
   constructor(public http: Http) {
-    console.log('Hello DataFasilitas Provider');
+    //console.log('Hello DataFasilitas Provider');
     this.rootUrl = 'http://192.168.20.8/api';
   }
 
   LoadFasilitas() {
-    var url = this.rootUrl+'/fasilitas';
+    var url = this.rootUrl+'/loadpoiirigasi';
     var response = this.http.get(url).map(res => res.json());
     return response;
   }

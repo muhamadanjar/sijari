@@ -3,17 +3,43 @@ import { NavController, NavParams, Platform } from 'ionic-angular';
 import { Geolocation } from '@ionic-native/geolocation';
 import { PoiPage } from './poi';
 import { Storage } from '@ionic/storage';
+import { DataFasilitas } from '../../providers/poipandeglang';
 //import { Connect } from '../../providers/connect';
 declare var google:any;
 var map:any;
 var markers = [];
-@Component({
-  selector: 'page-PoiMap',
-  templateUrl: 'PoiMap.html',
-  
-})
 
-export class PoiMapPage {
+@Component({
+  selector: 'page-poilocatemap',
+  template:  `<ion-header>
+    <ion-navbar color="primary">
+      <ion-title>
+        Lokasi Peta
+      </ion-title>
+      
+    </ion-navbar>
+    </ion-header>
+    <ion-content>
+      <div #map id="map"></div>
+    </ion-content>
+
+    <ion-footer>
+      <ion-toolbar>
+        
+        <ion-buttons>
+          <ion-grid text-center>
+            <ion-row>
+              <ion-col><button ion-button icon-left block (click)="goBack()" type="button"> Kembali</button></ion-col>
+              <ion-col><button ion-button icon-left block (click)="getRefresh()" type="button"> Refresh</button></ion-col>
+              <ion-col><button ion-button icon-left block (click)="getLocate()" type="button"> Locate</button></ion-col>
+            </ion-row>
+          </ion-grid>
+        </ion-buttons>
+      </ion-toolbar>
+    </ion-footer>
+  `
+})
+export class PoiMapLocatePage {
   public data:any;
   constructor(
     public navparams: NavParams,
@@ -128,7 +154,7 @@ export class PoiMapPage {
 
 @Component({
   selector: 'page-pinpoint',
-  //templateUrl: 'PoiMap.html',
+  
   template:`<ion-content>
     <div #map id="map"></div>
   </ion-content>
@@ -143,7 +169,6 @@ export class PoiMapPage {
   `
   
 })
-
 export class PinPointMapPage{
    data:any;
 
@@ -244,4 +269,74 @@ export class PinPointMapPage{
    getCancel(){
       this.navCtrl.pop();
    }
+}
+
+@Component({
+  selector: 'page-poimap',
+  template:`
+  <ion-header>
+    <ion-navbar color="primary">
+      <ion-title>
+        Lihat Peta
+      </ion-title>
+    </ion-navbar>
+  </ion-header>
+  <ion-content>
+    <div #map id="map"></div>
+  </ion-content>
+  `
+})
+export class PoiMapPage{
+  constructor(
+      public storage: Storage,
+      public df: DataFasilitas,
+      public platform: Platform,
+      public navparams: NavParams,
+      public navCtrl:NavController
+   ){}
+  initializeMap() {
+    this.platform.ready().then(() => {
+        //var infowindow = new google.maps.InfoWindow();
+        var minZoomLevel = 12;
+        var pandeglangPoint = new google.maps.LatLng(-6.3252738,106.0764884);
+        
+        map = new google.maps.Map(document.getElementById('map'), {
+            mapTypeId: google.maps.MapTypeId.ROADMAP,
+            center: pandeglangPoint,
+            zoom: minZoomLevel,
+            mapTypeControl: false,
+            mapTypeControlOptions: {
+                style: google.maps.MapTypeControlStyle.HORIZONTAL_BAR,
+                position: google.maps.ControlPosition.TOP_CENTER
+            },
+            zoomControl: true,
+            zoomControlOptions: {
+                position: google.maps.ControlPosition.TOP_LEFT
+            },
+            scaleControl: false,
+            streetViewControl: true,
+            streetViewControlOptions: {
+                position: google.maps.ControlPosition.LEFT_TOP
+            },
+            fullscreenControl: true
+        });
+        
+
+        
+    });
+  }
+  ngAfterViewInit() {
+    this.initializeMap();
+    this.LoadPoi();
+  }
+
+  LoadPoi(){
+    this.df.LoadFasilitas().subscribe(
+      data => {
+        console.log(data);     
+      },
+      err => {
+          console.log(err);
+      });
+  }
 }

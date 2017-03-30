@@ -3,8 +3,8 @@ import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
 import { MyApp } from './app.component';
 import { HomePage, HomePopover } from '../pages/home/home';
 import { LoginPage} from '../pages/login/login';
-import { PoiPage} from '../pages/poi/poi';
-import { PoiMapPage,PinPointMapPage} from '../pages/poi/poiMap';
+import { PoiPage,PoiPopover} from '../pages/poi/poi';
+import { PoiMapPage, PoiMapLocatePage , PinPointMapPage} from '../pages/poi/poiMap';
 import { TabPage } from '../pages/tab/tab';
 
 import { StatusBar } from '@ionic-native/status-bar';
@@ -26,9 +26,8 @@ export function provideStorage() {
     MyApp,
     HomePage, HomePopover,
     LoginPage,
-    PoiPage,
-    PoiMapPage,
-    PinPointMapPage,
+    PoiPage, PoiPopover,
+    PoiMapPage, PoiMapLocatePage, PinPointMapPage,
 
     TabPage,
   ],
@@ -41,9 +40,8 @@ export function provideStorage() {
     MyApp,
     HomePage, HomePopover,
     LoginPage,
-    PoiPage,
-    PoiMapPage,
-    PinPointMapPage,
+    PoiPage, PoiPopover,
+    PoiMapPage, PoiMapLocatePage, PinPointMapPage,
 
     TabPage,
   ],

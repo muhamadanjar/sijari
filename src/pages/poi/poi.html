@@ -3,6 +3,11 @@
   <ion-navbar>
     
     <ion-title><img src="assets/images/icon.png" width="36"/>Jaringan <span color="primary" class="irigasibold">Irigasi</span></ion-title>
+    <ion-buttons end>
+      <button ion-button icon-only (click)="presentPopoverMap($event)">
+        <ion-icon name="more"></ion-icon>
+      </button>
+    </ion-buttons>
   </ion-navbar>
 
 </ion-header>
@@ -142,7 +147,7 @@
       <ion-grid text-center class="button-group">
         <ion-row>
           <ion-col class="col"><button ion-button icon-left block (click)="submit()" type="button" class="button"><ion-icon ios="ios-send" md="md-send"></ion-icon> Proses</button></ion-col>
-          <ion-col class="col"><button ion-button icon-left block (click)="getMap()" type="button" class="button"><ion-icon name="map"></ion-icon> Map</button></ion-col>
+          <ion-col class="col"><button ion-button icon-left block (click)="getLocateMap()" type="button" class="button"><ion-icon name="map"></ion-icon> Map</button></ion-col>
         </ion-row>
       </ion-grid>
   

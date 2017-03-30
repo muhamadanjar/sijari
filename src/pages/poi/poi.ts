@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams,ToastController, ActionSheetController, Platform, Loading, LoadingController } from 'ionic-angular';
+import { NavController, NavParams,ToastController, ActionSheetController, Platform, Loading, LoadingController,PopoverController } from 'ionic-angular';
 import { Geolocation } from '@ionic-native/geolocation';
 import { Camera } from '@ionic-native/camera';
 import { File } from '@ionic-native/file';
@@ -7,7 +7,7 @@ import { Transfer, TransferObject } from '@ionic-native/transfer';
 import { FilePath } from '@ionic-native/file-path';
 
 import {DataFasilitas} from "../../providers/poipandeglang";
-import {PoiMapPage, PinPointMapPage } from "./poiMap";
+import {PoiMapPage, PoiMapLocatePage, PinPointMapPage } from "./poiMap";
 import {HomePage} from "./../home/home";
 import { Storage } from '@ionic/storage';
 import { Auth } from '../../providers/auth';
@@ -33,6 +33,7 @@ export class PoiPage {
     public actionSheetCtrl: ActionSheetController,
     public platform: Platform,
     public loadingCtrl: LoadingController,  
+    public popoverCtrl: PopoverController,
     public dtfasilitas:DataFasilitas,
     public storage: Storage,
     public auth: Auth,
@@ -227,16 +228,35 @@ export class PoiPage {
 	  });
 	}
 
-  public getMap(){
-    //this.storage.set('datapoi', this.data);
-    this.navCtrl.push(PoiMapPage,{data:this.data});
-
+  public getLocateMap(){
+    this.navCtrl.push(PoiMapLocatePage,{data:this.data});
   }
 
   public getMapPin(){
     this.navCtrl.push(PinPointMapPage,{data:this.data});
   }
 
-  
+  presentPopoverMap(ev) {
 
+    let popover = this.popoverCtrl.create(PoiPopover);
+    popover.present({
+      ev: ev
+    });
+  }
+
+}
+
+@Component({
+  template:`<ion-list>
+      <button ion-item (click)="getAllMap()">Lihat Irigasi</button>
+    </ion-list>`
+})
+export class PoiPopover{
+  constructor(
+    public navCtrl: NavController, 
+    public navParams: NavParams
+  ){}
+  public getAllMap(){
+    this.navCtrl.push(PoiMapPage);
+  }
 }

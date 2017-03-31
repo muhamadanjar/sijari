@@ -21,7 +21,7 @@ export class Auth {
   currentUser: User;
   constructor(public http: Http, public storage: Storage) {
     console.log('Hello Auth Provider');
-    this.url = "http://192.168.20.8/api";
+    this.url = "http://localhost:8100/api";
   }
 
   login(credentials){
@@ -62,15 +62,21 @@ export class Auth {
    /*return Observable.create(observer => {
       let headers = new Headers();
       headers.append('Content-Type', 'application/json');
-      this.storage.get('userstatus').then((value) => {
-          console.log(value);
-          if(value){
-            observer.next(value);
-          }
-      });
+      this.http.get(this.url+'/checklogin', {headers: headers}).subscribe(res => {
+        let data = res.json();
+        console.log(data);
+        
+        this.currentUser = this.getUserInfo();
+        this.storage.set('currentUser', this.currentUser);
+        observer.next(data.status);
+      }); 
       observer.complete();
     });*/
-    return new Promise((resolve, reject) => {
+    var url = this.url+'/checklogin';
+    var response = this.http.get(url).map(res => res.json());
+    return response;
+    
+    /*return new Promise((resolve, reject) => {
         this.storage.get('token').then((value) => {
             this.token = value;
             let headers = new Headers();
@@ -88,7 +94,7 @@ export class Auth {
  
         });         
  
-    });
+    });*/
  
   }
 

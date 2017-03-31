@@ -25,6 +25,8 @@ page-poi {
         }
     }
 
+    
+
     .toolbar-background-md{
         background: url('../assets/images/menu_bg.png');
     }
@@ -80,6 +82,24 @@ page-pinpoint{
                 border-bottom-left-radius: 0;
             }
             }
+        }
+    }
+}
+
+.md{
+    page-poi{
+        .button-md{
+            box-shadow: none;
+        }
+    }
+    page-poilocatemap{
+        .button-md{
+            box-shadow: none;
+        }
+    }
+    page-pinpoint{
+        .button-md{
+            box-shadow: none;
         }
     }
 }

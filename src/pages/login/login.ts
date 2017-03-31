@@ -18,23 +18,31 @@ export class LoginPage {
   public authService:Auth,
   public http:Http
   ) {
-    
-  }
-
-  ionViewDidLoad() {}
-  ngAfterViewInit() {
-    this.authService.checkAuthentication().then(allowed => {
+    /*authService.checkAuthentication().subscribe(allowed => {        
+      console.log('amkar');
+      
         if (allowed) {
-          console.log(allowed);
-          this.navCtrl.setRoot(PoiPage)
-
-        }else{
-            //this.loading.dismiss();
+          navCtrl.setRoot(PoiPage);
         }
       }, (err) => {
             console.log("Not already authorized",err);
             //this.loading.dismiss();
+    });*/
+    authService.checkAuthentication().subscribe(data => {
+      console.log(data.status);
+        if(data.status){
+          navCtrl.setRoot(PoiPage);
+        }
     });
+    
+    
+  }
+
+  ionViewDidLoad() {
+    
+  }
+  ngAfterViewInit() {
+    
   }
 
   login(){

@@ -38,7 +38,7 @@ export class Auth {
               
               this.token = data.token;
               this.storage.set('token', data.token);
-              
+              this.storage.set('userstatus', data.status);
               if(data.data){
                 this.currentUser = new User(data.data.name, data.data.email);
                 this.storage.set('currentUser', this.currentUser);
@@ -59,16 +59,35 @@ export class Auth {
   }
 
   checkAuthentication(){
-   return Observable.create(observer => {
+   /*return Observable.create(observer => {
       let headers = new Headers();
       headers.append('Content-Type', 'application/json');
-      this.http.get(this.url+'/checklogin', {headers: headers}) .subscribe(res => {
-        let data = res.json();
-        console.log(data);
-        observer.next(data.status);
-        observer.complete();
+      this.storage.get('userstatus').then((value) => {
+          console.log(value);
+          if(value){
+            observer.next(value);
+          }
       });
-     
+      observer.complete();
+    });*/
+    return new Promise((resolve, reject) => {
+        this.storage.get('token').then((value) => {
+            this.token = value;
+            let headers = new Headers();
+            headers.append('Authorization', this.token);
+            console.log(this.token);
+            
+            this.http.get(this.url+'/checklogin', {headers: headers})
+                .subscribe(res => {
+                  this.currentUser = this.getUserInfo();
+                  this.storage.set('currentUser', this.currentUser);
+                    resolve(res);
+                }, (err) => {
+                    reject(err);
+                }); 
+ 
+        });         
+ 
     });
  
   }

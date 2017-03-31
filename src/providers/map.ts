@@ -5,12 +5,14 @@ import { Platform } from 'ionic-angular';
 
 declare var google:any;
 var map:any;
-var markers = [];
+//var markers = [];
 
 @Injectable()
 export class Map {
   map:any;
-  markers:any = [];
+  //markers:any = [];
+  markers: Array<{}>;
+
   constructor(public http: Http,
   public platform: Platform) {}
 
@@ -43,8 +45,8 @@ export class Map {
   }
 
   setMapOnAll(map) {
-      for (var i = 0; i < markers.length; i++) {
-        markers[i].setMap(map);
+      for (var i = 0; i < this.markers.length; i++) {
+        //this.markers[i].setMap(map);
       }
    }
    // Removes the markers from the map, but keeps them in the array.
@@ -58,7 +60,7 @@ export class Map {
    // Deletes all markers in the array by removing references to them.
    deleteMarkers() {
       this.clearMarkers();
-      markers = [];
+      this.markers = [];
    }
 
   

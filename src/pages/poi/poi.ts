@@ -8,7 +8,7 @@ import { FilePath } from '@ionic-native/file-path';
 
 import {DataFasilitas} from "../../providers/poipandeglang";
 import {PoiMapPage, PoiMapLocatePage, PinPointMapPage } from "./poiMap";
-import {HomePage} from "./../home/home";
+
 import { Storage } from '@ionic/storage';
 import { Auth } from '../../providers/auth';
 declare var cordova: any;
@@ -97,7 +97,7 @@ export class PoiPage {
           this.results = data;
           console.log(data);
           if(this.results[0].result =="success"){
-            this.navCtrl.setRoot(HomePage);
+            this.navCtrl.setRoot(PoiPage);
           }
       }, error => {
             console.log("Oooops!");

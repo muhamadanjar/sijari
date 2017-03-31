@@ -1,8 +1,7 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams,LoadingController,AlertController } from 'ionic-angular';
 import {Auth} from '../../providers/auth';
-//import {HomePage} from '../home/home';
-//import {TabPage} from '../tab/tab';
+import { Http } from '@angular/http';
 import {PoiPage} from '../poi/poi';
 @Component({
   selector: 'page-login',
@@ -16,24 +15,26 @@ export class LoginPage {
   public navParams: NavParams,
   public alertCtrl: AlertController,
   public loadingCtrl:LoadingController,
-  public authService:Auth) {
+  public authService:Auth,
+  public http:Http
+  ) {
     
   }
 
-  ionViewDidLoad() {
-    this.authService.checkAuthentication().subscribe(allowed => {
+  ionViewDidLoad() {}
+  ngAfterViewInit() {
+    this.authService.checkAuthentication().then(allowed => {
         if (allowed) {
-          setTimeout(() => {
-            //this.loading.dismiss();
-            this.navCtrl.setRoot(PoiPage)
-          });
+          console.log(allowed);
+          this.navCtrl.setRoot(PoiPage)
+
         }else{
             //this.loading.dismiss();
         }
       }, (err) => {
             console.log("Not already authorized",err);
             //this.loading.dismiss();
-      });
+    });
   }
 
   login(){

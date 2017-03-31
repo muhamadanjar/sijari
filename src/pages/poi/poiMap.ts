@@ -1,13 +1,14 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams, Platform } from 'ionic-angular';
+import { NavController, NavParams, Platform, ModalController,ViewController } from 'ionic-angular';
 import { Geolocation } from '@ionic-native/geolocation';
 import { PoiPage } from './poi';
 import { Storage } from '@ionic/storage';
 import { DataFasilitas } from '../../providers/poipandeglang';
-//import { Connect } from '../../providers/connect';
+import { Connect } from '../../providers/connect';
 declare var google:any;
 var map:any;
 var markers = [];
+
 
 @Component({
   selector: 'page-poilocatemap',
@@ -220,10 +221,8 @@ export class PinPointMapPage{
     });
    }
    addMarker(latlng, i=0) {
-     
-     
      this.clearMarkers();
-     //var host = 'http://192.168.20.8/';
+     
      var marker = new google.maps.Marker({
         map: map,
         position: latlng,
@@ -287,13 +286,16 @@ export class PinPointMapPage{
   `
 })
 export class PoiMapPage{
+  markers: Array<{}>;
+  marker:Array<{}>;
   constructor(
       public storage: Storage,
       public df: DataFasilitas,
       public platform: Platform,
       public navparams: NavParams,
-      public navCtrl:NavController
-   ){}
+      public navCtrl:NavController,
+      public modalCtrl:ModalController
+  ){}
   initializeMap() {
     this.platform.ready().then(() => {
         //var infowindow = new google.maps.InfoWindow();
@@ -320,23 +322,159 @@ export class PoiMapPage{
             },
             fullscreenControl: true
         });
-        
+        this.LoadPoi();
 
+        
         
     });
   }
   ngAfterViewInit() {
     this.initializeMap();
-    this.LoadPoi();
+    
   }
+
+  addMarker(latlng, data) {
+     let marker;
+     marker = new google.maps.Marker({
+        map: map,
+        position: latlng,
+        draggable: false,
+        icon:'assets/img/icon_map.png',
+        id:data.id
+        
+     });
+     let t = this;
+     google.maps.event.addListener(marker, "click", function () {
+        console.log(this.id);
+        t.openModal({poi:data});
+     });
+     
+     markers.push(marker);
+   }
 
   LoadPoi(){
     this.df.LoadFasilitas().subscribe(
       data => {
-        console.log(data);     
-      },
-      err => {
-          console.log(err);
-      });
+            console.log(data);
+            for(let i =0;i< data.length;i++){
+                let point = new google.maps.LatLng(data[i].y,data[i].x);
+                this.addMarker(point,data[i]);
+            }
+            
+      },err => {
+        console.log(err);
+    });
+  }
+
+  setMapOnAll(map) {
+      for (var i = 0; i < markers.length; i++) {
+        markers[i].setMap(map);
+      }
+   }
+   // Removes the markers from the map, but keeps them in the array.
+   clearMarkers() {
+      this.setMapOnAll(null);
+   }
+   // Shows any markers currently in the array.
+   showMarkers() {
+      this.setMapOnAll(map);
+   }
+   // Deletes all markers in the array by removing references to them.
+   deleteMarkers() {
+      this.clearMarkers();
+      markers = [];
+   }
+
+   openModal(characterNum) {
+    let modal = this.modalCtrl.create(ModalPoiMap, characterNum);
+    modal.present();
+  }
+}
+
+@Component({
+  template:`
+  <ion-header>
+    <ion-toolbar>
+      <ion-title>
+        Description
+      </ion-title>
+      <ion-buttons start>
+        <button ion-button (click)="dismiss()">
+          <span ion-text color="primary" showWhen="ios">Cancel</span>
+          <ion-icon name="md-close" showWhen="android,windows"></ion-icon>
+        </button>
+      </ion-buttons>
+    </ion-toolbar>
+  </ion-header>
+
+  <ion-content>
+    <ion-list>
+        <ion-item>
+          <ion-avatar item-left>
+            <img src="{{url}}/images/poi/{{poi.foto}}">
+          </ion-avatar>
+          <h2>{{poi.daerah_irigasi}}</h2>
+          <p>{{poi.jaringan_irigasi}}</p>
+        </ion-item>
+        
+        <ion-item>
+          Bendung
+          <ion-note item-right>
+            {{poi.bendung}}
+          </ion-note>
+        </ion-item>
+
+        <ion-item>
+          Saluran Primer
+          <ion-note item-right>
+            {{poi.saluran_primer}}
+          </ion-note>
+        </ion-item>
+
+        <ion-item>
+          Drain Inlet
+          <ion-note item-right>
+            {{poi.drain_inlet}}
+          </ion-note>
+        </ion-item>
+
+        <ion-item>
+          Saluran Sekunder
+          <ion-note item-right>
+            {{poi.saluran_sekunder}}
+          </ion-note>
+        </ion-item>
+
+        <ion-item>
+          Kondisi
+          <ion-note item-right>
+            {{poi.kondisi}}
+          </ion-note>
+        </ion-item>
+
+        <ion-card>
+          <img src="{{url}}/images/poi/{{poi.foto}}">
+        </ion-card>
+        
+        
+    </ion-list>
+  </ion-content>
+  `
+})
+export class ModalPoiMap{
+  poi;
+  url;
+  constructor(
+    public platform: Platform,
+    public params: NavParams,
+    public viewCtrl: ViewController,
+    public connect: Connect
+  ) {
+    connect.setUrl('http://192.168.20.8');
+    this.url = connect.rootUrl;
+    this.poi = params.data.poi;
+  }
+  dismiss() {
+    this.viewCtrl.dismiss();
   }
 }

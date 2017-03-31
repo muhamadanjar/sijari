@@ -4,7 +4,7 @@ import { MyApp } from './app.component';
 import { HomePage, HomePopover } from '../pages/home/home';
 import { LoginPage} from '../pages/login/login';
 import { PoiPage,PoiPopover} from '../pages/poi/poi';
-import { PoiMapPage, PoiMapLocatePage , PinPointMapPage} from '../pages/poi/poiMap';
+import { PoiMapPage, PoiMapLocatePage , PinPointMapPage, ModalPoiMap} from '../pages/poi/poiMap';
 import { TabPage } from '../pages/tab/tab';
 
 import { StatusBar } from '@ionic-native/status-bar';
@@ -27,7 +27,7 @@ export function provideStorage() {
     HomePage, HomePopover,
     LoginPage,
     PoiPage, PoiPopover,
-    PoiMapPage, PoiMapLocatePage, PinPointMapPage,
+    PoiMapPage, PoiMapLocatePage, PinPointMapPage,ModalPoiMap,
 
     TabPage,
   ],
@@ -41,7 +41,7 @@ export function provideStorage() {
     HomePage, HomePopover,
     LoginPage,
     PoiPage, PoiPopover,
-    PoiMapPage, PoiMapLocatePage, PinPointMapPage,
+    PoiMapPage, PoiMapLocatePage, PinPointMapPage, ModalPoiMap,
 
     TabPage,
   ],

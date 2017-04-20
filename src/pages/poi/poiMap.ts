@@ -156,7 +156,8 @@ export class PoiMapLocatePage {
 @Component({
   selector: 'page-pinpoint',
   
-  template:`<ion-content>
+  template:`
+  <ion-content>
     <div #map id="map"></div>
   </ion-content>
   <ion-footer>
@@ -252,16 +253,7 @@ export class PinPointMapPage{
       this.clearMarkers();
       markers = [];
    }
-   /*displayMarkers() {
-        markers = [];
-        var countjson = markers.length;
-        var last_index = countjson - 1;
-        for (var i = 0; i < markers.length; i++) {
-            var latlng = markers[i].getPosition();
-            this.txt += latlng.toUrlValue() + ",\n";
-            polylineStore.push(latlng.toJSON());
-        }
-   }*/
+   
    getSend(){
       this.navCtrl.setRoot(PoiPage,{data:this.data});
    }
@@ -470,7 +462,7 @@ export class ModalPoiMap{
     public viewCtrl: ViewController,
     public connect: Connect
   ) {
-    connect.setUrl('http://192.168.20.8');
+    connect.setUrl('http://192.168.43.98');
     this.url = connect.rootUrl;
     this.poi = params.data.poi;
   }

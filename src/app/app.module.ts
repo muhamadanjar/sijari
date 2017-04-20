@@ -6,6 +6,8 @@ import { LoginPage} from '../pages/login/login';
 import { PoiPage,PoiPopover} from '../pages/poi/poi';
 import { PoiMapPage, PoiMapLocatePage , PinPointMapPage, ModalPoiMap} from '../pages/poi/poiMap';
 import { TabPage } from '../pages/tab/tab';
+import { FbPage } from '../pages/fb/fb';
+
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
@@ -14,6 +16,7 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 import { IonicStorageModule,Storage } from '@ionic/storage';
 import { Auth } from '../providers/auth';
 import { DataFasilitas } from '../providers/poipandeglang';
+import { DataBangunan } from '../providers/data-bangunan';
 import { Map } from '../providers/map';
 import { Connect } from '../providers/connect';
 import { Geolocation } from '@ionic-native/geolocation';
@@ -28,7 +31,7 @@ export function provideStorage() {
     LoginPage,
     PoiPage, PoiPopover,
     PoiMapPage, PoiMapLocatePage, PinPointMapPage,ModalPoiMap,
-
+    FbPage,
     TabPage,
   ],
   imports: [
@@ -42,7 +45,7 @@ export function provideStorage() {
     LoginPage,
     PoiPage, PoiPopover,
     PoiMapPage, PoiMapLocatePage, PinPointMapPage, ModalPoiMap,
-
+    FbPage,
     TabPage,
   ],
   providers: [
@@ -50,6 +53,7 @@ export function provideStorage() {
     SplashScreen,
     Auth,
     DataFasilitas,
+    DataBangunan,
     Geolocation,
     Map,
     Connect,

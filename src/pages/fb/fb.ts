@@ -6,19 +6,21 @@ import { File } from '@ionic-native/file';
 import { Transfer, TransferObject } from '@ionic-native/transfer';
 import { FilePath } from '@ionic-native/file-path';
 
-import {DataFasilitas} from "../../providers/poipandeglang";
-import {PoiMapPage, PoiMapLocatePage, PinPointMapPage } from "./poiMap";
+import {DataBangunan} from "../../providers/data-bangunan";
+import {PoiMapPage, PoiMapLocatePage, PinPointMapPage } from "../poi/poiMap";
+import {PoiPopover} from "../poi/poi";
 
 import { Storage } from '@ionic/storage';
 import { Auth } from '../../providers/auth';
 import { Connect } from '../../providers/connect';
 declare var cordova: any;
 @Component({
-  selector: 'page-poi',
-  templateUrl: 'poi.html',
+  selector: 'page-fb',
+  templateUrl: 'fb.html',
   providers:[Camera,File,Transfer,FilePath]
 })
-export class PoiPage {
+
+export class FbPage {
   x:any;
   y:any;
   public data:any;
@@ -27,7 +29,7 @@ export class PoiPage {
   lastImage: string = null;
   loading: Loading;
   username: string;
-  
+
   constructor(public navCtrl: NavController, 
     public navParams: NavParams, 
     public toastCtrl: ToastController,
@@ -35,7 +37,7 @@ export class PoiPage {
     public platform: Platform,
     public loadingCtrl: LoadingController,  
     public popoverCtrl: PopoverController,
-    public dtfasilitas:DataFasilitas,
+    public dtfasilitas: DataBangunan,
     public storage: Storage,
     public auth: Auth,
     public geolocation:Geolocation,
@@ -43,24 +45,15 @@ export class PoiPage {
     private file: File,
     private filePath: FilePath,
     private transfer: Transfer,
-    public connect: Connect
-  ) {
-    this.data = {};
-    if(this.navParams.data.data != null){
-      this.data = this.navParams.data.data;
-    }
-    
-    
-    
+    public connect: Connect) {
+	  	this.data = {};
+	    if(this.navParams.data.data != null){
+	      this.data = this.navParams.data.data;
+	    }
   }
 
-  ngAfterViewInit() {}
-
   ionViewDidLoad() {
-    
-    /*this.storage.get('datapoi').then((value) => {
-      console.log('value baru',value);
-    });*/
+    console.log('ionViewDidLoad FbPage');
   }
 
   geolocate(){
@@ -82,24 +75,20 @@ export class PoiPage {
   submit(){
      this.presentToast();
      let data = JSON.stringify({
-          daerah_irigasi:this.data.daerah_irigasi,
-          bendung:this.data.bendung,
-          jaringan_irigasi:this.data.jaringan_irigasi,
-          jaringan_irigasi_bangunan:this.data.jaringan_irigasi_bangunan,
-          saluran_primer:this.data.saluran_primer,
-          drain_inlet:this.data.drain_inlet,
-          saluran_sekunder:this.data.saluran_sekunder,
-          kondisi:this.data.kondisi,
+          fungsi_bangunan:this.data.fungsi_bangunan,
+          bangunan:this.data.bangunan,
+          jumlah_lantai:this.data.jumlah_lantai,
+          tipe_bangunan:this.data.tipe_bangunan,
           x:this.data.x,
           y:this.data.y,
           foto:this.data.foto
      });
      console.log(data);
-     this.dtfasilitas.InsertPostFasilitas(data).subscribe(data => {
+     this.dtfasilitas.InsertPostBangunan(data).subscribe(data => {
           this.results = data;
           console.log(data);
           if(this.results[0].result =="success"){
-            this.navCtrl.setRoot(PoiPage);
+            this.navCtrl.setRoot(FbPage);
           }
       }, error => {
             console.log("Oooops!");
@@ -247,19 +236,4 @@ export class PoiPage {
     });
   }
 
-}
-
-@Component({
-  template:`<ion-list>
-      <button ion-item (click)="getAllMap()">Lihat Irigasi</button>
-    </ion-list>`
-})
-export class PoiPopover{
-  constructor(
-    public navCtrl: NavController, 
-    public navParams: NavParams
-  ){}
-  public getAllMap(){
-    this.navCtrl.push(PoiMapPage);
-  }
 }

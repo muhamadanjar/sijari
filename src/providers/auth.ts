@@ -21,7 +21,7 @@ export class Auth {
   currentUser: User;
   constructor(public http: Http, public storage: Storage) {
     console.log('Hello Auth Provider');
-    this.url = "http://localhost:8100/api";
+    this.url = "http://192.168.20.8:8100/api";
   }
 
   login(credentials){

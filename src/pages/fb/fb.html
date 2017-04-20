@@ -1,0 +1,129 @@
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>Fungsi Bangunan</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+	<ion-segment [(ngModel)]="latlng">
+      <ion-segment-button value="gps">
+        GPS
+      </ion-segment-button>
+      <ion-segment-button value="pinpoint">
+        Pin Point
+      </ion-segment-button>
+    </ion-segment>
+  
+
+  <div [ngSwitch]="latlng">
+    <ion-list *ngSwitchCase="'gps'">
+      <ion-item>
+          <button type="button" ion-button icon-left block (click)="geolocate()">
+            <ion-icon ios="ios-locate" md="md-locate"></ion-icon>
+            Dapatkan Lokasi
+          </button>
+      </ion-item>
+    </ion-list>
+
+    <ion-list *ngSwitchCase="'pinpoint'">
+      <ion-item>
+        <button type="button" ion-button icon-left block (click)="getMapPin()">
+          <ion-icon ios="ios-pin" md="md-pin"></ion-icon>
+          Pilih Lokasi...</button>
+      </ion-item>
+    </ion-list>
+  </div>
+
+
+  <ion-list>
+    <form (ngSubmit)="submit()">
+      <ion-item>
+        <ion-icon ios="ios-globe" md="md-globe"  [ngStyle]="{'color': '#0CA9EA'}"></ion-icon>
+        Latitude
+        <ion-badge item-right>{{data.y}}</ion-badge>
+      </ion-item>
+      <ion-item>
+        <ion-icon ios="ios-globe" md="md-globe" [ngStyle]="{'color': '#CE6296'}"></ion-icon>
+        Longitude
+        <ion-badge item-right>{{data.x}}</ion-badge>
+      </ion-item>
+
+      <ion-item>
+        <ion-label stacked>Fungsi Bangunan</ion-label>
+        <ion-select [(ngModel)]="data.fungsi_bangunan" name="fungsi_bangunan" > 
+          <ion-option value="Sekolah">Sekolah</ion-option>
+          <ion-option value="Toko">Toko</ion-option>
+          <ion-option value="Curug Goong">Curug Goong</ion-option>
+          <ion-option value="Mesjid">Mesjid</ion-option>
+          <ion-option value="bank">bank</ion-option>
+          <ion-option value="apotek">apotek</ion-option>
+          <ion-option value="rumah">rumah</ion-option>
+          <ion-option value="Ruko">Ruko</ion-option>
+          <ion-option value="Kantor">Kantor</ion-option>
+          <ion-option value="Minimarket">Minimarket</ion-option>
+          <ion-option value="rumah makan">rumah makan</ion-option>
+          <ion-option value="bengkel">bengkel</ion-option>
+          <ion-option value="Gereja">Gereja</ion-option>
+          
+        </ion-select>
+      </ion-item>
+      <ion-item>
+        <ion-label stacked>Toponim Bangunan</ion-label>
+        <ion-input [(ngModel)]="data.bangunan" name="bangunan" ></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label stacked>Jumlah Lantai Bangunan</ion-label>
+        <ion-input [(ngModel)]="data.jumlah_lantai" name="jumlah_lantai" ></ion-input>
+      </ion-item>
+      
+      <ion-item>
+        <ion-label stacked>Tipe Bangunan</ion-label>
+        <ion-select [(ngModel)]="data.tipe_bangunan" name="tipe_bangunan"> 
+          <ion-option value="Permanan">Permanen</ion-option>
+          <ion-option value="Semi Permanan">Semi Permanen</ion-option>
+        </ion-select>
+      </ion-item>
+
+      <ion-item>
+        <ion-grid class="button-group">
+            <ion-row>
+              <ion-col class="col">
+                
+                  <button ion-button icon-left block (click)="presentActionSheet()" type="button" class="button" color="secondary">
+                    <ion-icon name="camera"></ion-icon>Select Image
+                  </button>
+                
+              </ion-col>
+              <ion-col class="col">
+              	<button ion-button icon-left block (click)="uploadImage()" [disabled]="lastImage === null" type="button" class="button" color="secondary">
+                    <ion-icon name="cloud-upload"></ion-icon>Upload
+                  </button>
+              </ion-col>
+
+            </ion-row>
+          </ion-grid>
+      </ion-item>
+      <ion-item>
+      <ion-card [hidden]="lastImage === null">
+        <ion-card-content>
+          <ion-card-title>
+            Foto 
+          </ion-card-title>
+          <img src="{{pathForImage(lastImage)}}" style="width: 100%" >
+          
+        </ion-card-content>
+      </ion-card>
+      </ion-item>
+      
+      <ion-grid text-center class="button-group">
+        <ion-row>
+          <ion-col class="col"><button ion-button icon-left block (click)="submit()" type="button" class="button"><ion-icon ios="ios-send" md="md-send"></ion-icon> Proses</button></ion-col>
+          <ion-col class="col"><button ion-button icon-left block (click)="getLocateMap()" type="button" class="button"><ion-icon name="map"></ion-icon> Map</button></ion-col>
+        </ion-row>
+      </ion-grid>
+    </form>
+  </ion-list>
+</ion-content>

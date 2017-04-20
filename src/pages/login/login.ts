@@ -3,6 +3,7 @@ import { NavController, NavParams,LoadingController,AlertController } from 'ioni
 import {Auth} from '../../providers/auth';
 import { Http } from '@angular/http';
 import {PoiPage} from '../poi/poi';
+import {FbPage} from '../fb/fb';
 @Component({
   selector: 'page-login',
   templateUrl: 'login.html'
@@ -31,7 +32,7 @@ export class LoginPage {
     authService.checkAuthentication().subscribe(data => {
       console.log(data.status);
         if(data.status){
-          navCtrl.setRoot(PoiPage);
+          navCtrl.setRoot(FbPage);
         }
     });
     
@@ -55,7 +56,7 @@ export class LoginPage {
         if (allowed) {
             setTimeout(() => {
             t.loading.dismiss();
-            t.navCtrl.setRoot(PoiPage)
+            t.navCtrl.setRoot(FbPage)
             });
         } else {
             t.showError("Akses ditolak");

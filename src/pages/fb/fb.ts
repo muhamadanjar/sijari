@@ -7,8 +7,8 @@ import { Transfer, TransferObject } from '@ionic-native/transfer';
 import { FilePath } from '@ionic-native/file-path';
 
 import {DataBangunan} from "../../providers/data-bangunan";
-import {PoiMapPage, PoiMapLocatePage, PinPointMapPage } from "../poi/poiMap";
-import {PoiPopover} from "../poi/poi";
+import {FbMapPage, FbMapLocatePage, FbPinPointMapPage } from "./fbMap";
+
 
 import { Storage } from '@ionic/storage';
 import { Auth } from '../../providers/auth';
@@ -64,7 +64,7 @@ export class FbPage {
         this.y = position.coords.latitude;
         this.data.x = this.x;
         this.data.y = this.y;
-        this.data.gpsinfo = "latitude :"+this.y+" longitude :"+this.x;
+        this.data.gpsinfo = "latitude : "+this.y+" longitude : "+this.x;
         
       }, (err) => {
         console.log(err);
@@ -72,6 +72,7 @@ export class FbPage {
     }
   }
 
+  
   submit(){
      this.presentToast();
      let data = JSON.stringify({
@@ -221,19 +222,35 @@ export class FbPage {
 	}
 
   public getLocateMap(){
-    this.navCtrl.push(PoiMapLocatePage,{data:this.data});
+    this.navCtrl.push(FbMapLocatePage,{data:this.data});
   }
 
   public getMapPin(){
-    this.navCtrl.push(PinPointMapPage,{data:this.data});
+    this.navCtrl.push(FbPinPointMapPage,{data:this.data});
   }
 
   presentPopoverMap(ev) {
 
-    let popover = this.popoverCtrl.create(PoiPopover);
+    let popover = this.popoverCtrl.create(FbPopover);
     popover.present({
       ev: ev
     });
   }
 
+}
+
+
+@Component({
+  template:`<ion-list>
+      <button ion-item (click)="getAllMap()">Lihat Irigasi</button>
+    </ion-list>`
+})
+export class FbPopover{
+  constructor(
+    public navCtrl: NavController, 
+    public navParams: NavParams
+  ){}
+  public getAllMap(){
+    this.navCtrl.push(FbMapPage);
+  }
 }

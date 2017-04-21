@@ -5,9 +5,10 @@ import { HomePage, HomePopover } from '../pages/home/home';
 import { LoginPage} from '../pages/login/login';
 import { PoiPage,PoiPopover} from '../pages/poi/poi';
 import { PoiMapPage, PoiMapLocatePage , PinPointMapPage, ModalPoiMap} from '../pages/poi/poiMap';
-import { TabPage } from '../pages/tab/tab';
-import { FbPage } from '../pages/fb/fb';
 
+import { TabPage } from '../pages/tab/tab';
+import { FbPage, FbPopover } from '../pages/fb/fb';
+import { FbMapPage, FbMapLocatePage , FbPinPointMapPage, ModalFbMap} from '../pages/fb/fbMap';
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
@@ -31,7 +32,8 @@ export function provideStorage() {
     LoginPage,
     PoiPage, PoiPopover,
     PoiMapPage, PoiMapLocatePage, PinPointMapPage,ModalPoiMap,
-    FbPage,
+    FbPage, FbPopover,
+    FbMapPage, FbMapLocatePage , FbPinPointMapPage, ModalFbMap,
     TabPage,
   ],
   imports: [
@@ -45,7 +47,8 @@ export function provideStorage() {
     LoginPage,
     PoiPage, PoiPopover,
     PoiMapPage, PoiMapLocatePage, PinPointMapPage, ModalPoiMap,
-    FbPage,
+    FbPage,FbPopover,
+    FbMapPage, FbMapLocatePage , FbPinPointMapPage, ModalFbMap,
     TabPage,
   ],
   providers: [

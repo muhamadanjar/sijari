@@ -7,7 +7,7 @@
 </ion-header>
 
 
-<ion-content padding>
+<ion-content>
 	<ion-segment [(ngModel)]="latlng">
       <ion-segment-button value="gps">
         GPS
@@ -90,19 +90,16 @@
       <ion-item>
         <ion-grid class="button-group">
             <ion-row>
-              <ion-col class="col">
-                
-                  <button ion-button icon-left block (click)="presentActionSheet()" type="button" class="button" color="secondary">
-                    <ion-icon name="camera"></ion-icon>Select Image
-                  </button>
-                
-              </ion-col>
-              <ion-col class="col">
-              	<button ion-button icon-left block (click)="uploadImage()" [disabled]="lastImage === null" type="button" class="button" color="secondary">
-                    <ion-icon name="cloud-upload"></ion-icon>Upload
-                  </button>
-              </ion-col>
-
+              	<ion-col class="col">
+	                <button ion-button icon-left block (click)="presentActionSheet()" type="button" class="button" color="secondary_dua">
+	                    <ion-icon name="camera"></ion-icon>Select Image
+	                </button>
+              	</ion-col>
+              	<ion-col class="col">
+	              	<button ion-button icon-left block (click)="uploadImage()" [disabled]="lastImage === null" type="button" class="button" color="secondary_dua">
+	              		<ion-icon name="cloud-upload"></ion-icon>Upload
+	                </button>
+              	</ion-col>
             </ion-row>
           </ion-grid>
       </ion-item>
@@ -118,12 +115,13 @@
       </ion-card>
       </ion-item>
       
+      
+    </form>
+  </ion-list>
       <ion-grid text-center class="button-group">
         <ion-row>
           <ion-col class="col"><button ion-button icon-left block (click)="submit()" type="button" class="button"><ion-icon ios="ios-send" md="md-send"></ion-icon> Proses</button></ion-col>
           <ion-col class="col"><button ion-button icon-left block (click)="getLocateMap()" type="button" class="button"><ion-icon name="map"></ion-icon> Map</button></ion-col>
         </ion-row>
       </ion-grid>
-    </form>
-  </ion-list>
 </ion-content>
